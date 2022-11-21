@@ -145,7 +145,7 @@ const QuestionGenerator = ({ children }) => {
     const res = await axios.post("/api/questions", { topics });
     const question = res.data.question;
 
-    setQuestion(question);
+    addQuestion(question)
   };
 
   return (
@@ -165,13 +165,7 @@ const QuestionGenerator = ({ children }) => {
           {...register("topics", { required: true })}
         />
       </form>
-      <div className="m-auto">
-        <QuestionCard className="m-auto">{question}</QuestionCard>
-      </div>
-      <div className="flex justify-between sm:justify-center">
-        <PrimaryButton onClick={() => addQuestion(question)}>
-          Add to Deck 🃏
-        </PrimaryButton>
+     <div className="flex justify-between sm:justify-center">
         {children}
       </div>
     </div>
