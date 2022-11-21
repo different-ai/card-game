@@ -1,6 +1,4 @@
-import Head from "next/head";
 import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import { classNames, Input } from "../components/Input";
 import {
   ArrowLeftCircleIcon,
@@ -51,12 +49,9 @@ const QuestionCard = ({ className, children }) => {
 };
 
 const Header = () => (
-  <div>
+  <div className="mb-6">
     <h1 className="text-4xl leading-10 font-extrabold text-gray-900 ">
-      AI-generated <br />
-      card game to <br />
-      enjoy with your <br />
-      friends family
+      AI-generated card game to enjoy with your friends family
     </h1>
   </div>
 );
@@ -130,73 +125,105 @@ const QuestionGenerator = ({ children }) => {
   };
 
   return (
-    <>
+    <div className="flex flex-col gap-3">
       <form onSubmit={handleSubmit(onSubmit)}>
+        <PrimaryButton type="submit" className="mb-3">
+          🤖 Press to generate question about
+        </PrimaryButton>
         <Input
           className="min-h-[4rem]"
           defaultValue="Software Development, Painting, Books"
         />
-        <PrimaryButton type="submit">
-          🤖 Press to generate question about
-        </PrimaryButton>
       </form>
       <div className="m-auto">
         <QuestionCard className="m-auto">{question}</QuestionCard>
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between sm:justify-center">
         <PrimaryButton onClick={() => addQuestion(question)}>
           Add to Deck 🃏
         </PrimaryButton>
         {children}
       </div>
-    </>
+    </div>
   );
 };
+
 const Deck = () => {
   const questions = useQuestionStore((state) => state.questions);
 
   const [currentQuestionIndex, setCurrentQuestion] = useState(0);
   const removeQuestion = useQuestionStore((state) => state.removeQuestion);
 
+  const hasQuestions = questions.length > 0;
+  const hasNextQuestion = !hasQuestions || currentQuestionIndex === 0;
+  const hasPreviousQuestion =
+    !hasQuestions || currentQuestionIndex === questions.length - 1;
+
   useEffect(() => {
+    if (!hasQuestions) return;
     setCurrentQuestion(questions.length - 1);
-  }, [questions]);
-  console.log(questions);
+  }, [questions, hasQuestions]);
 
   const handleNext = () => {
-    setCurrentQuestion((prev) => prev + 1);
+    if (hasPreviousQuestion) return;
+    setCurrentQuestion((prev) => {
+      return prev + 1;
+    });
   };
   const handlePrevious = () => {
-    setCurrentQuestion((prev) => prev - 1);
+    if (hasNextQuestion) return;
+    setCurrentQuestion((prev) => {
+      return prev - 1;
+    });
+  };
+  const handleRemoveQuestion = () => {
+    if (!hasQuestions) return;
+    removeQuestion(questions[currentQuestionIndex]);
   };
 
   return (
-    <>
-      {`${currentQuestionIndex + 1}/${questions.length}`}
+    <div className="flex flex-col items-center">
       <div className="relative m-auto min-h-[330px]">
-        {questions.length === 0 && (
-          <QuestionCard className="m-auto opacity-50">Your questions will appear here click on Add to Deck to get started!</QuestionCard>
-
-        )}
-        {questions.map((question, index) => (
-          <QuestionCard
-            className={`absolute left-[${8 * index}px]`}
-            key={index}
-          >
-            {questions[currentQuestionIndex]}
+        {!hasQuestions && (
+          <QuestionCard className="m-auto opacity-50">
+            Your questions will appear here click on Add to Deck to get started!
           </QuestionCard>
-        ))}
+        )}
+        {hasQuestions && (
+          <QuestionCard>{questions[currentQuestionIndex]}</QuestionCard>
+        )}
       </div>
+
+      {hasQuestions && `${currentQuestionIndex + 1}/${questions.length}`}
+      {!hasQuestions && "No questions yet"}
       <div className="flex gap-3">
-        <ArrowLeftCircleIcon height={48} onClick={handlePrevious} />
-        <ArrowRightCircleIcon height={48} onClick={handleNext} />
+        <ArrowLeftCircleIcon
+          className={classNames(
+            "cursor-pointer",
+            hasNextQuestion && "opacity-50"
+          )}
+          height={48}
+          onClick={handlePrevious}
+        />
+        <ArrowRightCircleIcon
+          className={classNames(
+            "cursor-pointer",
+            hasPreviousQuestion && "opacity-50"
+          )}
+          height={48}
+          onClick={handleNext}
+        />
         <MinusCircleIcon
           height={48}
-          onClick={() => removeQuestion(questions[currentQuestionIndex])}
+          className={classNames(
+            "cursor-pointer",
+            !hasQuestions && "opacity-50"
+          )}
+          onClick={handleRemoveQuestion}
         />
       </div>
-      <SecondaryButton>Pre-order Now 💵</SecondaryButton>
-    </>
+      <SecondaryButton className="max-w-max">Pre-order Now 💵</SecondaryButton>
+    </div>
   );
 };
 
@@ -206,15 +233,17 @@ const Main = () => {
   const executeScroll = () => myRef.current.scrollIntoView();
 
   return (
-    <div>
+    <div className="sm:flex sm:justify-between ">
       <QuestionGenerator>
-        <SecondaryButton onClick={executeScroll}>See Your Deck</SecondaryButton>
+        <SecondaryButton className="sm:hidden" onClick={executeScroll}>
+          See Your Deck
+        </SecondaryButton>
       </QuestionGenerator>
       <div className="flex flex-col justify-center">
-        <h3 className="text-2xl font-bold text-center">
+        <h3 className="text-2xl font-bold text-center mb-3">
           Checkout your personalized card game
         </h3>
-        <ChevronDownIcon height={48} />
+        <ChevronDownIcon height={48} className="sm:hidden" />
         <Deck />
         <div ref={myRef}></div>
       </div>
@@ -227,7 +256,7 @@ const Footer = () => {
 
 export default function Home() {
   return (
-    <div className="m-auto p-8  max-w-lg">
+    <div className="m-auto p-8  max-w-4xl">
       <Header />
       <Main />
       <Footer />
