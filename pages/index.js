@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import create from "zustand";
+import axios from "axios";
 
 const useQuestionStore = create((set) => ({
   questions: [],
@@ -113,15 +114,20 @@ const QuestionGenerator = ({ children }) => {
   } = useForm();
 
   const onSubmit = (data) => {
-    getQuestion(data);
+    const { topics } = data;
+    const topicsArray = topics.split(",").map((t) => t.trim());
+    getQuestion(topicsArray);
   };
 
-  const getQuestion = () => {
+  const getQuestion = async (topics) => {
     // replace with API call
     const randomQuestion =
       MOCK_QUESTIONS[Math.floor(Math.random() * MOCK_QUESTIONS.length)];
 
-    setQuestion(randomQuestion);
+    const res = await axios.post("/api/questions", { topics });
+    const question = res.data.question;
+
+    setQuestion(question);
   };
 
   return (
@@ -133,6 +139,7 @@ const QuestionGenerator = ({ children }) => {
         <Input
           className="min-h-[4rem]"
           defaultValue="Software Development, Painting, Books"
+          {...register("topics", { required: true })}
         />
       </form>
       <div className="m-auto">
