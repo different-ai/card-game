@@ -96,11 +96,7 @@ const SecondaryButton = ({
   );
 };
 
-const MOCK_QUESTIONS = [
-  "Do you think it’s fair to call programming an art?",
-  "When was the last time you felt like you were in the zone?",
-  "What is the most important thing you learned in the last year?",
-];
+
 
 const Spinner = () => {
   // if (true) return <div>yo</div>
@@ -146,10 +142,6 @@ const QuestionGenerator = ({ children }) => {
   };
 
   const getQuestion = async (topics) => {
-    // replace with API call
-    const randomQuestion =
-      MOCK_QUESTIONS[Math.floor(Math.random() * MOCK_QUESTIONS.length)];
-
     const res = await axios.post("/api/questions", { topics });
     const question = res.data.question;
 
