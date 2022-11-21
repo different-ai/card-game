@@ -48,7 +48,7 @@ const QuestionCard = ({ className, children }) => {
   );
 };
 
-const Header = () => (
+const Headline = () => (
   <div className="mb-6">
     <h1 className="text-4xl leading-10 font-extrabold text-gray-900 ">
       AI-generated card game to enjoy with your friends family
@@ -182,18 +182,7 @@ const Deck = () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="relative m-auto min-h-[330px]">
-        {!hasQuestions && (
-          <QuestionCard className="m-auto opacity-50">
-            Your questions will appear here click on Add to Deck to get started!
-          </QuestionCard>
-        )}
-        {hasQuestions && (
-          <QuestionCard>{questions[currentQuestionIndex]}</QuestionCard>
-        )}
-      </div>
-
+    <div className="flex flex-col items-center gap-3">
       {hasQuestions && `${currentQuestionIndex + 1}/${questions.length}`}
       {!hasQuestions && "No questions yet"}
       <div className="flex gap-3">
@@ -222,6 +211,18 @@ const Deck = () => {
           onClick={handleRemoveQuestion}
         />
       </div>
+
+      <div className="relative m-auto min-h-[330px]">
+        {!hasQuestions && (
+          <QuestionCard className="m-auto opacity-50">
+            Your questions will appear here click on Add to Deck to get started!
+          </QuestionCard>
+        )}
+        {hasQuestions && (
+          <QuestionCard>{questions[currentQuestionIndex]}</QuestionCard>
+        )}
+      </div>
+
       <SecondaryButton className="max-w-max">Pre-order Now 💵</SecondaryButton>
     </div>
   );
@@ -233,17 +234,20 @@ const Main = () => {
   const executeScroll = () => myRef.current.scrollIntoView();
 
   return (
-    <div className="sm:flex sm:justify-between ">
-      <QuestionGenerator>
-        <SecondaryButton className="sm:hidden" onClick={executeScroll}>
-          See Your Deck
-        </SecondaryButton>
-      </QuestionGenerator>
-      <div className="flex flex-col justify-center">
+    <div className="sm:grid sm:grid-cols-2">
+      <div>
+        <Headline />
+        <QuestionGenerator>
+          <SecondaryButton className="sm:hidden" onClick={executeScroll}>
+            See Your Deck
+          </SecondaryButton>
+        </QuestionGenerator>
+      </div>
+      <div className="flex flex-col justify-end">
         <h3 className="text-2xl font-bold text-center mb-3">
           Checkout your personalized card game
         </h3>
-        <ChevronDownIcon height={48} className="sm:hidden" />
+        <ChevronDownIcon height={24} className="sm:hidden" />
         <Deck />
         <div ref={myRef}></div>
       </div>
@@ -256,8 +260,7 @@ const Footer = () => {
 
 export default function Home() {
   return (
-    <div className="m-auto p-8  max-w-4xl">
-      <Header />
+    <div className="m-auto p-8  max-w-5xl sm:pt-16">
       <Main />
       <Footer />
     </div>
