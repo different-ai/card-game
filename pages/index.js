@@ -96,8 +96,6 @@ const SecondaryButton = ({
   );
 };
 
-
-
 const Spinner = () => {
   // if (true) return <div>yo</div>
   return (
@@ -145,29 +143,27 @@ const QuestionGenerator = ({ children }) => {
     const res = await axios.post("/api/questions", { topics });
     const question = res.data.question;
 
-    addQuestion(question)
+    addQuestion(question);
   };
 
   return (
     <div className="flex flex-col gap-3">
       <form onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          className="min-h-[4rem]"
+          defaultValue="Animals, Painting"
+          {...register("topics", { required: true })}
+        />
         <PrimaryButton
           type="submit"
-          className="mb-3 disabled:opacity-75"
+          className="mt-3 disabled:opacity-75"
           disabled={isSubmitting}
         >
           {isSubmitting && <Spinner />}
           🤖 Press to generate question about
         </PrimaryButton>
-        <Input
-          className="min-h-[4rem]"
-          defaultValue="Software Development, Painting, Books"
-          {...register("topics", { required: true })}
-        />
       </form>
-     <div className="flex justify-between sm:justify-center">
-        {children}
-      </div>
+      <div className="flex justify-between sm:justify-center">{children}</div>
     </div>
   );
 };
@@ -239,7 +235,7 @@ const Deck = () => {
       <div className="relative m-auto min-h-[330px]">
         {!hasQuestions && (
           <QuestionCard className="m-auto opacity-50">
-            Your questions will appear here click on Add to Deck to get started!
+            Your question will appear here.
           </QuestionCard>
         )}
         {hasQuestions && (
@@ -261,11 +257,7 @@ const Main = () => {
     <div className="sm:grid sm:grid-cols-2">
       <div>
         <Headline />
-        <QuestionGenerator>
-          <SecondaryButton className="sm:hidden" onClick={executeScroll}>
-            See Your Deck
-          </SecondaryButton>
-        </QuestionGenerator>
+        <QuestionGenerator></QuestionGenerator>
       </div>
       <div className="flex flex-col justify-end">
         <h3 className="text-2xl font-bold text-center mb-3">
