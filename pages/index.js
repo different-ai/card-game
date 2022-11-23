@@ -33,7 +33,7 @@ const LangameIcon = ({ className = "" }) => {
     />
   );
 };
-const QuestionCard = ({ className, children }) => {
+const QuestionCard = ({ className, children, header }) => {
   return (
     <div
       className={classNames(
@@ -41,7 +41,9 @@ const QuestionCard = ({ className, children }) => {
         className
       )}
     >
-      <LangameIcon />
+      <div className="flex justify-between">
+        <LangameIcon /> <div className="text-gray-700 text-xs">{header}</div>
+      </div>
       <div className="m-auto text-center">{children}</div>
 
       <LangameIcon className="ml-auto" />
@@ -68,7 +70,7 @@ const PrimaryButton = ({
       onClick={onClick}
       type="button"
       className={classNames(
-        "inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2",
+        "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 w-full sm:max-w-max",
         className
       )}
       {...rest}
@@ -151,6 +153,7 @@ const QuestionGenerator = ({ children }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           className="min-h-[4rem]"
+          placeholder="Enter topics separated by commas"
           defaultValue="Animals, Painting"
           {...register("topics", { required: true })}
         />
@@ -159,8 +162,12 @@ const QuestionGenerator = ({ children }) => {
           className="mt-3 disabled:opacity-75"
           disabled={isSubmitting}
         >
-          {isSubmitting && <Spinner />}
-          🤖 Press to generate question about
+          {isSubmitting && (
+            <>
+              <Spinner /> 🤖 Generating Question
+            </>
+          )}
+          {!isSubmitting && "🤖 Generate Question"}
         </PrimaryButton>
       </form>
       <div className="flex justify-between sm:justify-center">{children}</div>
@@ -203,8 +210,7 @@ const Deck = () => {
 
   return (
     <div className="flex flex-col items-center gap-3">
-      {hasQuestions && `${currentQuestionIndex + 1}/${questions.length}`}
-      {!hasQuestions && "No questions yet"}
+      {/* {!hasQuestions && "No questions yet"} */}
       <div className="flex gap-3">
         <ArrowLeftCircleIcon
           className={classNames(
@@ -239,7 +245,13 @@ const Deck = () => {
           </QuestionCard>
         )}
         {hasQuestions && (
-          <QuestionCard>{questions[currentQuestionIndex]}</QuestionCard>
+          <QuestionCard
+            header={
+              hasQuestions && `${currentQuestionIndex + 1}/${questions.length}`
+            }
+          >
+            {questions[currentQuestionIndex]}
+          </QuestionCard>
         )}
       </div>
 
@@ -261,9 +273,14 @@ const Main = () => {
       </div>
       <div className="flex flex-col justify-end">
         <h3 className="text-2xl font-bold text-center mb-3">
-          Checkout your personalized card game
+          Your Personalized Card Game
         </h3>
-        <ChevronDownIcon height={24} className="sm:hidden" />
+        <h4></h4>
+        <ChevronDownIcon
+          onClick={executeScroll}
+          className="cursor sm:hidden"
+          height={24}
+        />
         <Deck />
         <div ref={myRef}></div>
       </div>
