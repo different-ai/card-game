@@ -21,7 +21,7 @@ export const QuestionGenerator = ({ children }) => {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitted },
   } = useForm();
 
   const onSubmit = async (data) => {
@@ -46,28 +46,33 @@ export const QuestionGenerator = ({ children }) => {
   };
 
   return (
-    <form
-      className="flex flex-col sm:flex-row  gap-3"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <Input
-        className="min-h-[4rem]"
-        placeholder="Enter topics separated by commas"
-        defaultValue="Animals, Painting"
-        {...register("topics", { required: true })}
-      />
-      <PrimaryButton
-        type="submit"
-        className="disabled:opacity-75 min-h-full"
-        disabled={isSubmitting}
+    <div>
+      <form
+        className="flex flex-col sm:flex-row  gap-3 mb-3"
+        onSubmit={handleSubmit(onSubmit)}
       >
-        {isSubmitting && (
-          <>
-            <Spinner /> 🤖 Generating Question
-          </>
-        )}
-        {!isSubmitting && "🤖 Generate Question"}
-      </PrimaryButton>
-    </form>
+        <Input
+          className="min-h-[4rem]"
+          placeholder="Enter topics separated by commas"
+          defaultValue="Animals, Painting"
+          {...register("topics", { required: true })}
+        />
+        <PrimaryButton
+          type="submit"
+          className="disabled:opacity-75 min-h-full"
+          disabled={isSubmitting}
+        >
+          {isSubmitting && (
+            <>
+              <Spinner /> Our 🤖 is working hard
+            </>
+          )}
+          {!isSubmitting && "Generate Conversation Starters"}
+        </PrimaryButton>
+      </form>
+      <p className="text-base font-medium text-gray-900">
+        {isSubmitted && "3 Questions Generated 🎉 "}
+      </p>
+    </div>
   );
 };

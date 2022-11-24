@@ -165,15 +165,14 @@ export default function Example() {
                 <span className="mt-1 block text-4xl font-bold tracking-tight sm:text-5xl xl:text-6xl">
                   <span className="block text-indigo-600">AI-generated </span>
                   <span className="block text-gray-900">
-                    conversaton card game to enjoy with your friends & family
+                    conversation card game to enjoy with your friends & family
                   </span>
                 </span>
               </h1>
               <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
                 Create your personalized deck of cards and play with your
-                friends. Each card is automatically added to your deck. You can
-                browse through your cards with the arrows, or remove them from
-                your deck.
+                friends. Select which cards should be part of your own deck by
+                swipping 💅{" "}.
               </p>
               <div className="mt-8 sm:mx-auto sm:max-w-lg sm:text-center lg:mx-0 lg:text-left">
                 <QuestionGenerator />
