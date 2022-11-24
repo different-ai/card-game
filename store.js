@@ -8,8 +8,8 @@ export const useQuestionStore = create((set) => ({
     set((state) => ({ questions: [...state.questions, question] })),
   rotateQuestions: () => {
     set((state) => {
-      const [first, ...rest] = state.questions;
-      return { questions: [...rest, first] };
+      const last = state.questions.pop();
+      return { questions: [last, ...state.questions] };
     });
   },
   removeQuestion: (questionId) =>

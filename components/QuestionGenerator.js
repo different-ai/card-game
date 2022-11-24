@@ -67,7 +67,7 @@ export const QuestionGenerator = ({ children }) => {
             />
             <PrimaryButton
               type="submit"
-              className="disabled:opacity-75 min-h-full"
+              className="disabled:opacity-75 min-h-full w-full sm:min-w-max"
               disabled={isSubmitting}
             >
               {isSubmitting && (

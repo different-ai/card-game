@@ -117,7 +117,7 @@ const Card: React.FC<CardProps> = ({
 };
 
 const Title: React.FC<{ title: string }> = ({ title }) => {
-  return <span className="text-xl font-bold text-center">{title}</span>;
+  return <span className="text-xl font-bold text-center text-gray-800">{title}</span>;
 };
 
 export default Card;
