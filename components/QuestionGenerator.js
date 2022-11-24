@@ -5,7 +5,15 @@ import axios from "axios";
 import { PrimaryButton } from "./PrimaryButton";
 import { Spinner } from "./Spinner";
 import { useQuestionStore } from "../store";
-import crypto from 'crypto'
+import crypto from "crypto";
+
+const delayLoop = (fn, delay) => {
+  return (name, i) => {
+    setTimeout(() => {
+      fn(name);
+    }, delay * 1000);
+  };
+};
 
 export const QuestionGenerator = ({ children }) => {
   const addQuestion = useQuestionStore((state) => state.addQuestion);
@@ -24,11 +32,17 @@ export const QuestionGenerator = ({ children }) => {
 
   const getQuestion = async (topics) => {
     const res = await axios.post("/api/questions", { topics });
-    const question = res.data.question;
+    const questions = res.data.questions;
+    console.log(questions);
 
-    const id = crypto.createHash("sha256").update(question).digest("hex");
-
-    addQuestion({ id, name: question });
+    questions.forEach((question, index) => {
+      setTimeout(() => {
+        addQuestion({
+          id: question.id,
+          name: question.conversation_starter.en,
+        });
+      }, 500 * index);
+    });
   };
 
   return (

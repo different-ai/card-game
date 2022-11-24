@@ -1,5 +1,5 @@
+import React from "react";
 import { CARDS } from "../components/CardList";
-
 
 type ArrayElementType<ArrType> = ArrType extends readonly (infer ElementType)[]
   ? ElementType
@@ -18,4 +18,5 @@ export interface CardProps {
   active: boolean;
   removeCard: (oldCard: CardType, swipe: SwipeType) => void;
   header: React.ReactNode;
+  className: string;
 }

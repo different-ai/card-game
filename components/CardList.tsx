@@ -21,10 +21,12 @@ export const CARDS = [
 ];
 
 const CardList = () => {
-  const {questions, addQuestion, removeQuestion} = useQuestionStore((state) => state);
+  const { questions, addQuestion, removeQuestion } = useQuestionStore(
+    (state) => state
+  );
   const hasQuestions = questions.length > 0;
-  console.log({questions})
-  const cards = questions
+  console.log({ questions });
+  const cards = questions;
 
   const [result, setResult] = useState<ResultType>({
     like: 0,
@@ -34,7 +36,7 @@ const CardList = () => {
   const [history, setHistory] = useState<HistoryType[]>([]);
   // index of last card
   const activeIndex = cards.length - 1;
-  console.log(cards.length, cards, activeIndex)
+  console.log(cards.length, cards, activeIndex);
 
   const removeCard = (oldCard: CardType, swipe: SwipeType) => {
     setHistory((current) => [...current, { ...oldCard, swipe }]);
@@ -52,12 +54,12 @@ const CardList = () => {
         })
       );
       setResult((current) => ({ ...current, [swipe]: current[swipe] - 1 }));
-       addQuestion(newCard.id);
+      addQuestion(newCard.id);
     }
   };
   return (
     <div className="relative flex flex-col justify-center items-center w-full h-screen gradient">
-     <AnimatePresence>
+      <AnimatePresence>
         {cards.map((card, index) => (
           <Card
             key={card.name}
@@ -70,12 +72,18 @@ const CardList = () => {
       {cards.length === 0 ? (
         <AnimatePresence>
             <Card
-            key="0"
-            active={true}
-            card={{id: 0, emoji: "🍅", name: "Your questions will appear here", color: 'black'}}
-            removeCard={() => null}
+            className="opacity-50"
+              header=""
+              key="0"
+              active={true}
+              card={{
+                id: 0,
+                emoji: "🍅",
+                name: "Your questions will appear here",
+                color: "black",
+              }}
+              removeCard={() => null}
             />
-
         </AnimatePresence>
       ) : null}
       <footer className="absolute bottom-4 flex items-center space-x-4">

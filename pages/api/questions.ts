@@ -2,7 +2,7 @@ import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
-  question: string;
+  questions: string[];
 };
 
 const API_KEY = process.env.API_KEY;
@@ -13,11 +13,10 @@ export default async function handler(
 ) {
   const response = await axios.post(
     "https://api.langa.me/v1/conversation/starter",
-    { topics: req.body.topics, limit: 1 },
+    { topics: req.body.topics, limit: 3 },
     { headers: { "X-Api-Key": API_KEY } }
   );
-  const conversationStarterText =
-    response.data.results[0]?.conversation_starter?.en;
+  const questions = response.data.results;
 
-  res.status(200).json({ question: conversationStarterText });
+  res.status(200).json({ questions });
 }

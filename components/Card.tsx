@@ -3,7 +3,13 @@ import { useState } from "react";
 import { CardProps } from "../types";
 import { LangameIcon } from "./LangameIcon";
 
-const Card: React.FC<CardProps> = ({ card, removeCard, active, header }) => {
+const Card: React.FC<CardProps> = ({
+  card,
+  removeCard,
+  active,
+  header,
+  className,
+}) => {
   const [leaveX, setLeaveX] = useState(0);
   const [leaveY, setLeaveY] = useState(0);
   const onDragEnd = (_e: any, info: PanInfo) => {
@@ -21,7 +27,7 @@ const Card: React.FC<CardProps> = ({ card, removeCard, active, header }) => {
       removeCard(card, "nope");
     }
   };
-  const classNames = `absolute h-[430px] w-[300px] bg-white shadow-xl rounded-2xl flex flex-col cursor-grab border-4 border-indigo-600 p-4`;
+  const classNames = `absolute h-[430px] w-[300px] bg-white shadow-xl rounded-2xl flex flex-col cursor-grab border-4 border-indigo-600 p-4 ${className}`;
   return (
     <>
       {active ? (
