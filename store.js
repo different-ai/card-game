@@ -6,9 +6,12 @@ export const useQuestionStore = create((set) => ({
   ],
   addQuestion: (question) =>
     set((state) => ({ questions: [...state.questions, question] })),
-  // used for adding multiple questions at once
-  addQuestions: (questions) =>
-    set((state) => ({ questions: [...state.questions, ...questions] })),
+  rotateQuestions: () => {
+    set((state) => {
+      const [first, ...rest] = state.questions;
+      return { questions: [...rest, first] };
+    });
+  },
   removeQuestion: (questionId) =>
     set((state) => ({
       questions: state.questions.filter((q) => q.id !== questionId),

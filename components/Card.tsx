@@ -3,6 +3,10 @@ import { useState } from "react";
 import { CardProps } from "../types";
 import { LangameIcon } from "./LangameIcon";
 
+const sleep = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 const Card: React.FC<CardProps> = ({
   card,
   removeCard,
@@ -13,6 +17,27 @@ const Card: React.FC<CardProps> = ({
 }) => {
   const [leaveX, setLeaveX] = useState(0);
   const [leaveY, setLeaveY] = useState(0);
+  const [currentAction, setCurrentAction] = useState("");
+
+  const onDragStart = async (_e: any, info: PanInfo) => {
+    if (info.offset.x > 100) {
+      setCurrentAction("keep");
+      await sleep(200);
+      setCurrentAction("");
+      return;
+    }
+    if (info.offset.x < -100) {
+      setCurrentAction("remove");
+      await sleep(200);
+      setCurrentAction("");
+      return;
+    }
+    if (info.offset.x === 0) {
+      setCurrentAction("");
+      return;
+    }
+  };
+
   const onDragEnd = (_e: any, info: PanInfo) => {
     if (info.offset.y < -100) {
       setLeaveY(-2000);
@@ -35,6 +60,7 @@ const Card: React.FC<CardProps> = ({
         <motion.div
           drag={true}
           dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+          onDrag={onDragStart}
           onDragEnd={onDragEnd}
           initial={{
             scale: 1,
@@ -56,6 +82,19 @@ const Card: React.FC<CardProps> = ({
           <div className="flex justify-between">
             <LangameIcon />{" "}
             <div className="text-gray-700 text-xs">{header}</div>
+          </div>
+
+          <div className="absolute z-30 text-xl top-20 origin-bottom -rotate-12 ">
+            {currentAction === "keep" ? (
+              <span className="text-indigo-600 border rounded-md border-indigo-600 px-2">
+                Keep
+              </span>
+            ) : null}
+            {currentAction === "remove" ? (
+              <span className="text-red-600 border border-red-600 rounded-md px-2">
+                Remove
+              </span>
+            ) : null}
           </div>
 
           <div className="m-auto text-center">

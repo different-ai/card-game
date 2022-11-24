@@ -8,11 +8,11 @@ import Head from "next/head";
 import Card from "./Card";
 import { useQuestionStore } from "../store";
 import RotateIcon from "./RotateIcon";
+import { setMaxIdleHTTPParsers } from "http";
 
 const CardList = () => {
-  const { questions, addQuestion, removeQuestion } = useQuestionStore(
-    (state) => state
-  );
+  const { questions, addQuestion, removeQuestion, rotateQuestions } =
+    useQuestionStore((state) => state);
   const hasQuestions = questions.length > 0;
   console.log({ questions });
   const cards = questions;
@@ -28,6 +28,10 @@ const CardList = () => {
   console.log(cards.length, cards, activeIndex);
 
   const removeCard = (oldCard: CardType, swipe: SwipeType) => {
+    if (swipe === "like") {
+      rotateQuestions();
+      return;
+    }
     setHistory((current) => [...current, { ...oldCard, swipe }]);
     removeQuestion(oldCard.id);
   };
@@ -46,6 +50,10 @@ const CardList = () => {
   };
   return (
     <div className="relative flex flex-col justify-center items-center w-full min-h-[500px] gradient">
+      <div className="absolute top-[-50px]">
+        <span>{`You've generated`}</span>
+        <span>{` ${questions.length} `}</span>cards!
+      </div>
       <AnimatePresence>
         {cards.map((card: any, index: number) => (
           <Card
@@ -73,18 +81,18 @@ const CardList = () => {
           />
         </AnimatePresence>
       ) : null}
-      <footer className="absolute bottom-4 flex items-center space-x-4">
+      <footer className="absolute bottom-[-70px] flex items-center ">
         <div className="flex flex-col items-center space-y-2">
           <button
             disabled={history.length === 0}
-            className="w-14 h-14 rounded-full bg-white inline-flex justify-center items-center disabled:color-gray-400"
+            className="rounded-md  px-6 py-3 bg-white inline-flex justify-center items-center disabled:text-gray-400"
             onClick={undoSwipe}
             data-testid="undo-btn"
             aria-label="Undo Swipe"
           >
             <RotateIcon strokeWidth={3} />
+            <span className="text-xs">Undo</span>
           </button>
-          <span className="text-xs">Undo</span>
         </div>
         {/* <Counter label="Likes" count={result.like} testid="like-count" />
         <Counter label="Nopes" count={result.nope} testid="nope-count" />
