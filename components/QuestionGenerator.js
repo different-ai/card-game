@@ -16,6 +16,7 @@ const delayLoop = (fn, delay) => {
 };
 
 export const QuestionGenerator = ({ children }) => {
+  const [counter, setCounter] = useState(0);
   const addQuestion = useQuestionStore((state) => state.addQuestion);
   const {
     register,
@@ -37,6 +38,7 @@ export const QuestionGenerator = ({ children }) => {
 
     questions.forEach((question, index) => {
       setTimeout(() => {
+        setCounter((prev) => prev + 1);
         addQuestion({
           id: question.id,
           name: question.conversation_starter.en,
@@ -51,28 +53,33 @@ export const QuestionGenerator = ({ children }) => {
         className="flex flex-col sm:flex-row  gap-3 mb-3"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Input
-          className="min-h-[4rem]"
-          placeholder="Enter topics separated by commas"
-          defaultValue="Animals, Painting"
-          {...register("topics", { required: true })}
-        />
-        <PrimaryButton
-          type="submit"
-          className="disabled:opacity-75 min-h-full"
-          disabled={isSubmitting}
-        >
-          {isSubmitting && (
-            <>
-              <Spinner /> Our 🤖 is working hard
-            </>
-          )}
-          {!isSubmitting && "Generate Conversation Starters"}
-        </PrimaryButton>
+        <div>
+          <p className="text-base font-medium text-gray-900">
+            {isSubmitted && `🙋 ${counter} questions generated `}
+          </p>
+
+          <div className="flex flex-col sm:flex-row  gap-3 mb-3">
+            <Input
+              className="min-h-[4rem]"
+              placeholder="Enter topics separated by commas"
+              defaultValue="Animals, Painting"
+              {...register("topics", { required: true })}
+            />
+            <PrimaryButton
+              type="submit"
+              className="disabled:opacity-75 min-h-full"
+              disabled={isSubmitting}
+            >
+              {isSubmitting && (
+                <>
+                  <Spinner /> Our 🤖 is working hard
+                </>
+              )}
+              {!isSubmitting && "Generate Conversation Starters"}
+            </PrimaryButton>
+          </div>
+        </div>
       </form>
-      <p className="text-base font-medium text-gray-900">
-        {isSubmitted && "3 Questions Generated 🎉 "}
-      </p>
     </div>
   );
 };

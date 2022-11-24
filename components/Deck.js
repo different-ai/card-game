@@ -77,19 +77,10 @@ export const Deck = ({ className }) => {
             Your question will appear here.
           </QuestionCard>
         )}
-        {hasQuestions && (
-          <QuestionCard
-            header={
-              hasQuestions && `${currentQuestionIndex + 1}/${questions.length}`
-            }
-          >
-            {questions[currentQuestionIndex]}
-          </QuestionCard>
-        )}
+        
         {hasQuestions && <CardList />}
       </div>
 
-      <SecondaryButton className="max-w-max">Pre-order Now 💵</SecondaryButton>
     </div>
   );
 };
