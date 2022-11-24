@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import type { NextPage } from "next";
 // import RotateIcon from "@icons/RotateIcon";
@@ -6,6 +6,8 @@ import type { NextPage } from "next";
 import { CardType, HistoryType, ResultType, SwipeType } from "../types";
 import Head from "next/head";
 import Card from "./Card";
+import { useQuestionStore } from "../store";
+import RotateIcon from "./RotateIcon";
 
 export const CARDS = [
   { id: 0, emoji: "🍅", name: "Tomato", color: "#E42100" },
@@ -18,8 +20,12 @@ export const CARDS = [
   { id: 7, emoji: "🍇", name: "Grapes", color: "#BC2A6E" },
 ];
 
-const Home: NextPage = () => {
-  const [cards, setCards] = useState(CARDS);
+const CardList = () => {
+  const {questions, addQuestion, removeQuestion} = useQuestionStore((state) => state);
+  const hasQuestions = questions.length > 0;
+  console.log({questions})
+  const cards = questions
+
   const [result, setResult] = useState<ResultType>({
     like: 0,
     nope: 0,
@@ -28,15 +34,14 @@ const Home: NextPage = () => {
   const [history, setHistory] = useState<HistoryType[]>([]);
   // index of last card
   const activeIndex = cards.length - 1;
+  console.log(cards.length, cards, activeIndex)
+
   const removeCard = (oldCard: CardType, swipe: SwipeType) => {
     setHistory((current) => [...current, { ...oldCard, swipe }]);
-    setCards((current) =>
-      current.filter((card) => {
-        return card.id !== oldCard.id;
-      })
-    );
+    removeQuestion(oldCard.id);
     setResult((current) => ({ ...current, [swipe]: current[swipe] + 1 }));
   };
+
   const undoSwipe = () => {
     const newCard = history.pop();
     if (newCard) {
@@ -47,15 +52,12 @@ const Home: NextPage = () => {
         })
       );
       setResult((current) => ({ ...current, [swipe]: current[swipe] - 1 }));
-      setCards((current) => [...current, newCard]);
+       addQuestion(newCard.id);
     }
   };
   return (
     <div className="relative flex flex-col justify-center items-center w-full h-screen gradient">
-      <Head>
-        <title>Tinder cards with Framer motion</title>
-      </Head>
-      <AnimatePresence>
+     <AnimatePresence>
         {cards.map((card, index) => (
           <Card
             key={card.name}
@@ -66,7 +68,15 @@ const Home: NextPage = () => {
         ))}
       </AnimatePresence>
       {cards.length === 0 ? (
-        <span className="text-white text-xl">End of Stack</span>
+        <AnimatePresence>
+            <Card
+            key="0"
+            active={true}
+            card={{id: 0, emoji: "🍅", name: "Your questions will appear here", color: 'black'}}
+            removeCard={() => null}
+            />
+
+        </AnimatePresence>
       ) : null}
       <footer className="absolute bottom-4 flex items-center space-x-4">
         <div className="flex flex-col items-center space-y-2">
@@ -77,7 +87,7 @@ const Home: NextPage = () => {
             data-testid="undo-btn"
             aria-label="Undo Swipe"
           >
-            {/* <RotateIcon strokeWidth={3} /> */}
+            <RotateIcon strokeWidth={3} />
           </button>
           <span className="text-xs text-white">Undo</span>
         </div>
@@ -93,4 +103,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default CardList;

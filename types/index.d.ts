@@ -17,4 +17,5 @@ export interface CardProps {
   card: CardType;
   active: boolean;
   removeCard: (oldCard: CardType, swipe: SwipeType) => void;
+  header: React.ReactNode;
 }

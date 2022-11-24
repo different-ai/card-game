@@ -1,8 +1,9 @@
 import { PanInfo, motion } from "framer-motion";
 import { useState } from "react";
-import { CardProps } from "types";
+import { CardProps } from "../types";
+import { LangameIcon } from "./LangameIcon";
 
-const Card: React.FC<CardProps> = ({ card, removeCard, active }) => {
+const Card: React.FC<CardProps> = ({ card, removeCard, active, header }) => {
   const [leaveX, setLeaveX] = useState(0);
   const [leaveY, setLeaveY] = useState(0);
   const onDragEnd = (_e: any, info: PanInfo) => {
@@ -20,7 +21,7 @@ const Card: React.FC<CardProps> = ({ card, removeCard, active }) => {
       removeCard(card, "nope");
     }
   };
-  const classNames = `absolute h-[430px] w-[300px] bg-white shadow-xl rounded-2xl flex flex-col justify-center items-center cursor-grab`;
+  const classNames = `absolute h-[430px] w-[300px] bg-white shadow-xl rounded-2xl flex flex-col cursor-grab border-4 border-indigo-600 p-4`;
   return (
     <>
       {active ? (
@@ -45,14 +46,22 @@ const Card: React.FC<CardProps> = ({ card, removeCard, active }) => {
           className={classNames}
           data-testid="active-card"
         >
-          <Emoji label={card.name} emoji={card.emoji} />
-          <Title title={card.name} color={card.color} />
+          <div className="flex justify-between">
+            <LangameIcon />{" "}
+            <div className="text-gray-700 text-xs">{header}</div>
+          </div>
+
+          <div className="m-auto text-center">
+            <Title title={card.name} color={card.color} />
+          </div>
+
+          <LangameIcon className="ml-auto" />
         </motion.div>
       ) : (
         <div
           className={`${classNames} ${
             card.name.length % 2 === 0 ? "rotate-6" : "-rotate-6"
-          }`}
+          } `}
         >
           <Emoji label={card.name} emoji={card.emoji} />
           <Title title={card.name} color={card.color} />
@@ -66,7 +75,7 @@ const Card: React.FC<CardProps> = ({ card, removeCard, active }) => {
  * a11y friendly component for emojis
  * @reference https://devyarns.com/accessible-emojis
  */
-const Emoji: React.FC<{ emoji: string, label: string }> = ({
+const Emoji: React.FC<{ emoji: string; label: string }> = ({
   emoji,
   label,
 }) => {
@@ -77,12 +86,12 @@ const Emoji: React.FC<{ emoji: string, label: string }> = ({
   );
 };
 
-const Title: React.FC<{ title: string, color: string }> = ({
+const Title: React.FC<{ title: string; color: string }> = ({
   title,
   color,
 }) => {
   return (
-    <span style={{ color }} className="text-5xl font-bold">
+    <span style={{ color }} className="text-xl font-bold text-center">
       {title}
     </span>
   );

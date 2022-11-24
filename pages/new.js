@@ -18,6 +18,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { LangameIcon } from "../components/LangameIcon";
 import { QuestionGenerator } from "../components/QuestionGenerator";
 import { Deck } from "../components/Deck";
+import CardList from "../components/CardList";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -220,7 +221,8 @@ export default function Example() {
                   fill="url(#4f4f415c-a0e9-44c2-9601-6ded5a34a13e)"
                 />
               </svg>
-                <Deck  className={"z-20"}/>
+              <CardList />
+              {/* <Deck className={"z-20"} /> */}
             </div>
           </div>
         </main>

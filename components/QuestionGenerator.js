@@ -4,12 +4,10 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { PrimaryButton } from "./PrimaryButton";
 import { Spinner } from "./Spinner";
-import { useQuestionStore } from "../pages/index";
+import { useQuestionStore } from "../store";
+import crypto from 'crypto'
 
 export const QuestionGenerator = ({ children }) => {
-  const [question, setQuestion] = useState(
-    "What do you think about Hackers & Painters from Paul Graham?"
-  );
   const addQuestion = useQuestionStore((state) => state.addQuestion);
   const {
     register,
@@ -28,11 +26,16 @@ export const QuestionGenerator = ({ children }) => {
     const res = await axios.post("/api/questions", { topics });
     const question = res.data.question;
 
-    addQuestion(question);
+    const id = crypto.createHash("sha256").update(question).digest("hex");
+
+    addQuestion({ id, name: question });
   };
 
   return (
-    <form className="flex flex-col sm:flex-row  gap-3" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex flex-col sm:flex-row  gap-3"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <Input
         className="min-h-[4rem]"
         placeholder="Enter topics separated by commas"

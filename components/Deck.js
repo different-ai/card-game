@@ -7,7 +7,7 @@ import {
 import { useEffect, useState } from "react";
 import { QuestionCard } from "./QuestionCard";
 import { SecondaryButton } from "./SecondaryButton";
-import { useQuestionStore } from "../pages/index";
+import { useQuestionStore } from "../store";
 import Card from "./Card";
 import CardList from "./CardList";
 
@@ -22,10 +22,7 @@ export const Deck = ({ className }) => {
   const hasPreviousQuestion =
     !hasQuestions || currentQuestionIndex === questions.length - 1;
 
-  useEffect(() => {
-    if (!hasQuestions) return;
-    setCurrentQuestion(questions.length - 1);
-  }, [questions, hasQuestions]);
+
 
   const handleNext = () => {
     if (hasPreviousQuestion) return;

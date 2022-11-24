@@ -1,22 +1,9 @@
-import {
-  ChevronDownIcon,
-} from "@heroicons/react/24/outline";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useRef } from "react";
 
-import create from "zustand";
 import { Headline } from "../components/Headline";
 import { QuestionGenerator } from "../components/QuestionGenerator";
 import { Deck } from "../components/Deck";
-
-export const useQuestionStore = create((set) => ({
-  questions: [],
-  addQuestion: (question) =>
-    set((state) => ({ questions: [...state.questions, question] })),
-  removeQuestion: (question) =>
-    set((state) => ({
-      questions: state.questions.filter((q) => q !== question),
-    })),
-}));
 
 const Main = () => {
   const myRef = useRef(null);
