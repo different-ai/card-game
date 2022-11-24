@@ -45,7 +45,7 @@ const CardList = () => {
     }
   };
   return (
-    <div className="relative flex flex-col justify-center items-center w-full min-h-[350px] gradient">
+    <div className="relative flex flex-col justify-center items-center w-full min-h-[500px] gradient">
       <AnimatePresence>
         {cards.map((card: any, index: number) => (
           <Card
