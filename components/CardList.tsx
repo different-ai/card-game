@@ -60,30 +60,32 @@ const CardList = () => {
   return (
     <div className="relative flex flex-col justify-center items-center w-full h-screen gradient">
       <AnimatePresence>
-        {cards.map((card, index) => (
+        {cards.map((card: any, index: number) => (
           <Card
             key={card.name}
             active={index === activeIndex}
             removeCard={removeCard}
             card={card}
+            className="opacity-50"
+            header=""
           />
         ))}
       </AnimatePresence>
       {cards.length === 0 ? (
         <AnimatePresence>
-            <Card
+          <Card
             className="opacity-50"
-              header=""
-              key="0"
-              active={true}
-              card={{
-                id: 0,
-                emoji: "🍅",
-                name: "Your questions will appear here",
-                color: "black",
-              }}
-              removeCard={() => null}
-            />
+            header=""
+            key="0"
+            active={true}
+            card={{
+              id: 0,
+              emoji: "🍅",
+              name: "Your questions will appear here",
+              color: "black",
+            }}
+            removeCard={() => null}
+          />
         </AnimatePresence>
       ) : null}
       <footer className="absolute bottom-4 flex items-center space-x-4">
