@@ -9,17 +9,6 @@ import Card from "./Card";
 import { useQuestionStore } from "../store";
 import RotateIcon from "./RotateIcon";
 
-export const CARDS = [
-  { id: 0, emoji: "🍅", name: "Tomato", color: "#E42100" },
-  { id: 1, emoji: "🍊", name: "Tangerine", color: "#F36000" },
-  { id: 2, emoji: "🍋", name: "Lemon", color: "#F3BC00" },
-  { id: 3, emoji: "🍐", name: "Pear", color: "#A0A226" },
-  { id: 4, emoji: "🥬", name: "Lettuce", color: "#349B19" },
-  { id: 5, emoji: "🫐", name: "Blueberries", color: "#70BBFF" },
-  { id: 6, emoji: "🍆", name: "Eggplant", color: "#7F4877" },
-  { id: 7, emoji: "🍇", name: "Grapes", color: "#BC2A6E" },
-];
-
 const CardList = () => {
   const { questions, addQuestion, removeQuestion } = useQuestionStore(
     (state) => state
@@ -41,7 +30,6 @@ const CardList = () => {
   const removeCard = (oldCard: CardType, swipe: SwipeType) => {
     setHistory((current) => [...current, { ...oldCard, swipe }]);
     removeQuestion(oldCard.id);
-    setResult((current) => ({ ...current, [swipe]: current[swipe] + 1 }));
   };
 
   const undoSwipe = () => {
@@ -53,12 +41,11 @@ const CardList = () => {
           return card.id !== newCard.id;
         })
       );
-      setResult((current) => ({ ...current, [swipe]: current[swipe] - 1 }));
-      addQuestion(newCard.id);
+      addQuestion(newCard);
     }
   };
   return (
-    <div className="relative flex flex-col justify-center items-center w-full h-screen gradient">
+    <div className="relative flex flex-col justify-center items-center w-full min-h-[350px] gradient">
       <AnimatePresence>
         {cards.map((card: any, index: number) => (
           <Card
@@ -75,7 +62,6 @@ const CardList = () => {
         <AnimatePresence>
           <Card
             cardNumber={0}
-            className="opacity-50"
             header=""
             key="0"
             active={true}
