@@ -19,4 +19,5 @@ export interface CardProps {
   removeCard: (oldCard: CardType, swipe: SwipeType) => void;
   header: React.ReactNode;
   className?: string;
+  cardNumber: number;
 }

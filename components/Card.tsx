@@ -9,6 +9,7 @@ const Card: React.FC<CardProps> = ({
   active,
   header,
   className = "",
+  cardNumber = 0,
 }) => {
   const [leaveX, setLeaveX] = useState(0);
   const [leaveY, setLeaveY] = useState(0);
@@ -40,7 +41,7 @@ const Card: React.FC<CardProps> = ({
           }}
           animate={{
             scale: 1.05,
-            rotate: `${card.name.length % 2 === 0 ? 6 : -6}deg`,
+            rotate: `${cardNumber % 2 === 0 ? 6 : -6}deg`,
           }}
           exit={{
             x: leaveX,
@@ -66,7 +67,7 @@ const Card: React.FC<CardProps> = ({
       ) : (
         <div
           className={`${classNames} ${
-            card.name.length % 2 === 0 ? "rotate-6" : "-rotate-6"
+            cardNumber % 2 === 0 ? "rotate-6" : "-rotate-6"
           } `}
         >
           <Emoji label={card.name} emoji={card.emoji} />

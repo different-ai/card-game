@@ -65,6 +65,7 @@ const CardList = () => {
             key={card.name}
             active={index === activeIndex}
             removeCard={removeCard}
+            cardNumber={index}
             card={card}
             header=""
           />
@@ -73,6 +74,7 @@ const CardList = () => {
       {cards.length === 0 ? (
         <AnimatePresence>
           <Card
+            cardNumber={0}
             className="opacity-50"
             header=""
             key="0"
@@ -91,14 +93,14 @@ const CardList = () => {
         <div className="flex flex-col items-center space-y-2">
           <button
             disabled={history.length === 0}
-            className="w-14 h-14 rounded-full text-black bg-white inline-flex justify-center items-center disabled:cursor-not-allowed"
+            className="w-14 h-14 rounded-full bg-white inline-flex justify-center items-center disabled:color-gray-400"
             onClick={undoSwipe}
             data-testid="undo-btn"
             aria-label="Undo Swipe"
           >
             <RotateIcon strokeWidth={3} />
           </button>
-          <span className="text-xs text-white">Undo</span>
+          <span className="text-xs">Undo</span>
         </div>
         {/* <Counter label="Likes" count={result.like} testid="like-count" />
         <Counter label="Nopes" count={result.nope} testid="nope-count" />
