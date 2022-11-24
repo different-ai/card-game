@@ -5,7 +5,9 @@ type ArrayElementType<ArrType> = ArrType extends readonly (infer ElementType)[]
   ? ElementType
   : never;
 
-export type CardType = ArrayElementType<typeof CARDS>;
+type QuestionType = { id: string; name: string };
+
+export type CardType = QuestionType;
 
 export type SwipeType = "like" | "nope" | "superlike";
 

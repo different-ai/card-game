@@ -66,10 +66,8 @@ const CardList = () => {
             key="0"
             active={true}
             card={{
-              id: 0,
-              emoji: "🍅",
+              id: "0",
               name: "Your questions will appear here",
-              color: "black",
             }}
             removeCard={() => null}
           />

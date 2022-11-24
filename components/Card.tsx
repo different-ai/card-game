@@ -59,7 +59,7 @@ const Card: React.FC<CardProps> = ({
           </div>
 
           <div className="m-auto text-center">
-            <Title title={card.name} color={card.color} />
+            <Title title={card.name} />
           </div>
 
           <LangameIcon className="ml-auto" />
@@ -70,38 +70,15 @@ const Card: React.FC<CardProps> = ({
             cardNumber % 2 === 0 ? "rotate-6" : "-rotate-6"
           } `}
         >
-          <Emoji label={card.name} emoji={card.emoji} />
-          <Title title={card.name} color={card.color} />
+          <Title title={card.name} />
         </div>
       )}
     </>
   );
 };
 
-/**
- * a11y friendly component for emojis
- * @reference https://devyarns.com/accessible-emojis
- */
-const Emoji: React.FC<{ emoji: string; label: string }> = ({
-  emoji,
-  label,
-}) => {
-  return (
-    <span role="img" aria-label={label} className="text-[140px]">
-      {emoji}
-    </span>
-  );
-};
-
-const Title: React.FC<{ title: string; color: string }> = ({
-  title,
-  color,
-}) => {
-  return (
-    <span style={{ color }} className="text-xl font-bold text-center">
-      {title}
-    </span>
-  );
+const Title: React.FC<{ title: string }> = ({ title }) => {
+  return <span className="text-xl font-bold text-center">{title}</span>;
 };
 
 export default Card;
