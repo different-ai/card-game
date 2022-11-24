@@ -8,7 +8,7 @@ const Card: React.FC<CardProps> = ({
   removeCard,
   active,
   header,
-  className,
+  className = "",
 }) => {
   const [leaveX, setLeaveX] = useState(0);
   const [leaveY, setLeaveY] = useState(0);

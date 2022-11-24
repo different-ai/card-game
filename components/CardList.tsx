@@ -66,7 +66,6 @@ const CardList = () => {
             active={index === activeIndex}
             removeCard={removeCard}
             card={card}
-            className="opacity-50"
             header=""
           />
         ))}
