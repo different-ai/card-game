@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import getStripe from "../utils/get-stripejs";
 import { SecondaryButton } from "./SecondaryButton";
-import { CardType } from "../types";
 import axios from "axios";
 import { useQuestionStore } from "../store";
 
