@@ -46,10 +46,6 @@ const CardList = () => {
   };
   return (
     <div className="relative flex flex-col justify-center items-center w-full min-h-[500px] gradient">
-      <div className="absolute top-[-25px] font-medium">
-        <span>There are</span>
-        <span>{` ${questions.length} `}</span>cards in your deck!
-      </div>
       <AnimatePresence>
         {cards.map((card: any, index: number) => (
           <Card
@@ -90,16 +86,6 @@ const CardList = () => {
             <span className="text-xs">Undo</span>
           </button>
         </div>
-        <SecondaryButton className="max-w-max">
-          Pre-order Now 💵
-        </SecondaryButton>
-        {/* <Counter label="Likes" count={result.like} testid="like-count" />
-        <Counter label="Nopes" count={result.nope} testid="nope-count" />
-        <Counter
-          label="Superlike"
-          count={result.superlike}
-          testid="superlike-count"
-        /> */}
       </footer>
     </div>
   );

@@ -4,13 +4,72 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { LangameIcon } from "../components/LangameIcon";
 import { QuestionGenerator } from "../components/QuestionGenerator";
 import CardList from "../components/CardList";
+import { useQuestionStore } from "../store";
+import CheckoutForm from "../components/CheckoutForm";
 
 const navigation = [
   { name: "Product", href: "#" },
   { name: "Features", href: "#" },
 ];
 
-export default function Example() {
+
+const Pattern = () => {
+  return (
+    <svg
+      className="absolute top-0 left-1/2 origin-top -translate-x-1/2 -translate-y-8 scale-75 transform sm:scale-100 lg:hidden"
+      width={640}
+      height={784}
+      fill="none"
+      viewBox="0 0 640 784"
+      aria-hidden="true"
+    >
+      <defs>
+        <pattern
+          id="4f4f415c-a0e9-44c2-9601-6ded5a34a13e"
+          x={118}
+          y={0}
+          width={20}
+          height={20}
+          patternUnits="userSpaceOnUse"
+        >
+          <rect
+            x={0}
+            y={0}
+            width={4}
+            height={4}
+            className="text-gray-200"
+            fill="currentColor"
+          />
+        </pattern>
+      </defs>
+      <rect
+        y={72}
+        width={640}
+        height={640}
+        className="text-gray-50"
+        fill="currentColor"
+      />
+      <rect
+        x={118}
+        width={404}
+        height={784}
+        fill="url(#4f4f415c-a0e9-44c2-9601-6ded5a34a13e)"
+      />
+    </svg>
+  );
+};
+
+const CardCounter = () => {
+  const { questions } = useQuestionStore((state) => state);
+  return (
+    <div className="absolute top-[-25px] font-medium">
+      <span>There are</span>
+      <span>{` ${questions.length} `}</span>cards in your deck!
+    </div>
+  );
+};
+
+export default function Home() {
   return (
     <div className="relative overflow-hidden bg-white">
       <div
@@ -151,49 +210,14 @@ export default function Example() {
                 <QuestionGenerator />
               </div>
             </div>
+
             <div className="relative mt-12 sm:mx-auto sm:max-w-lg lg:col-span-6 lg:mx-0 lg:mt-0 lg:flex lg:max-w-none lg:items-center ">
-              <svg
-                className="absolute top-0 left-1/2 origin-top -translate-x-1/2 -translate-y-8 scale-75 transform sm:scale-100 lg:hidden"
-                width={640}
-                height={784}
-                fill="none"
-                viewBox="0 0 640 784"
-                aria-hidden="true"
-              >
-                <defs>
-                  <pattern
-                    id="4f4f415c-a0e9-44c2-9601-6ded5a34a13e"
-                    x={118}
-                    y={0}
-                    width={20}
-                    height={20}
-                    patternUnits="userSpaceOnUse"
-                  >
-                    <rect
-                      x={0}
-                      y={0}
-                      width={4}
-                      height={4}
-                      className="text-gray-200"
-                      fill="currentColor"
-                    />
-                  </pattern>
-                </defs>
-                <rect
-                  y={72}
-                  width={640}
-                  height={640}
-                  className="text-gray-50"
-                  fill="currentColor"
-                />
-                <rect
-                  x={118}
-                  width={404}
-                  height={784}
-                  fill="url(#4f4f415c-a0e9-44c2-9601-6ded5a34a13e)"
-                />
-              </svg>
-              <CardList />
+              {/* <Pattern /> */}
+              <div className="">
+                <CheckoutForm />
+                <CardCounter />
+                <CardList />
+              </div>
             </div>
           </div>
         </main>
