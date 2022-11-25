@@ -12,6 +12,7 @@ export const QuestionGenerator = ({ children }) => {
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors, isSubmitting, isSubmitted },
   } = useForm();
@@ -38,6 +39,10 @@ export const QuestionGenerator = ({ children }) => {
     });
   };
 
+  const handleInputTopic = (topic) => {
+    setValue("topics", topic);
+  };
+
   return (
     <div>
       <form
@@ -49,6 +54,26 @@ export const QuestionGenerator = ({ children }) => {
             {isSubmitted && `🙋 ${counter} questions generated `}
           </p>
 
+          <div className="flex gap-3 mb-3">
+            <span
+              onClick={() => handleInputTopic("Coding, Love")}
+              className="inline-flex items-center rounded-full bg-blue-100 px-3 py-0.5 text-sm font-medium text-blue-800 cursor-pointer"
+            >
+              Coding, Love
+            </span>
+            <span
+              className="inline-flex items-center rounded-full bg-blue-100 px-3 py-0.5 text-sm font-medium text-blue-800 cursor-pointer"
+              onClick={() => handleInputTopic("Generosity, Mindfulness")}
+            >
+              Generosity, Mindfulness
+            </span>
+            <span
+              className="inline-flex items-center rounded-full bg-blue-100 px-3 py-0.5 text-sm font-medium text-blue-800 cursor-pointer"
+              onClick={() => handleInputTopic("Danger, Ranger")}
+            >
+              Danger, Ranger
+            </span>
+          </div>
           <div className="flex flex-col sm:flex-row  gap-3 mb-3">
             <Input
               className="min-h-[4rem]"
