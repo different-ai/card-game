@@ -5,17 +5,14 @@ import posthog from "posthog-js";
 import { useEffect } from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
-  useEffect(() => {
-    posthog.init("phc_XGOSiimQQpEK9TDZN7NZ6wkfy5gp81DNPDR4OLllda3", {
-      api_host: "https://app.posthog.com",
-    });
-  }, []);
+
   usePostHog("phc_XGOSiimQQpEK9TDZN7NZ6wkfy5gp81DNPDR4OLllda3", {
     api_host: "https://app.posthog.com",
     loaded: (posthog) => {
       if (process.env.NODE_ENV === "development") posthog.opt_out_capturing();
     },
   });
+  console.log("yo");
 
   return <Component {...pageProps} />;
 }
