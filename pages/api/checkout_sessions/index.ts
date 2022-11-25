@@ -22,6 +22,28 @@ export default async function handler(
       const params: Stripe.Checkout.SessionCreateParams = {
         mode: "payment",
         metadata: req.body.questions,
+        shipping_address_collection: {
+          allowed_countries: [
+            "US",
+            "DE",
+            "GB",
+            "CA",
+            "FR",
+            "IT",
+            "ES",
+            "NL",
+            "BE",
+            "LU",
+            "AT",
+            "CH",
+            "IE",
+            "DK",
+            "SE",
+            "NO",
+            "FI",
+            "PT",
+          ],
+        },
         line_items: [
           {
             // test -> price_1M80UtKvi2l7GmXJLHgxLmTh

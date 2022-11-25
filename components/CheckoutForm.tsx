@@ -8,6 +8,8 @@ import { useQuestionStore } from "../store";
 const CheckoutForm = () => {
   const [loading, setLoading] = useState(false);
   const questions: any = useQuestionStore((state) => state.questions);
+  const hasEnoughQuestions = questions?.length > 20;
+  const hasTooManyQuestions = questions?.length > 50;
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -45,14 +47,22 @@ const CheckoutForm = () => {
     setLoading(false);
   };
 
+  const isDisabled = loading || !hasEnoughQuestions || hasTooManyQuestions;
+
   return (
     <form onSubmit={handleSubmit}>
       <SecondaryButton
-        className="checkout-style-background"
+        className="checkout-style-background "
         type="submit"
-        disabled={loading}
+        disabled={isDisabled}
       >
-        💵 Pre-order Now
+        {hasEnoughQuestions &&
+          !hasTooManyQuestions &&
+          !loading &&
+          `Pre-order now for $25 🔥`}
+        {!hasEnoughQuestions && "Add more questions and pre-order the deck 😍"}
+        {hasTooManyQuestions && "Too many questions"}
+        {loading && "Redirecting you to checkout"}
       </SecondaryButton>
     </form>
   );
