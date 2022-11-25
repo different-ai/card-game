@@ -6,6 +6,12 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-08-01",
 });
 
+const isDev = process.env.NODE_ENV === "development";
+
+const PRICE_ID = isDev
+  ? "price_1M80UtKvi2l7GmXJLHgxLmTh"
+  : "price_1M7zOpKvi2l7GmXJDpld0AwW";
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -19,7 +25,7 @@ export default async function handler(
         line_items: [
           {
             // test -> price_1M80UtKvi2l7GmXJLHgxLmTh
-            price: "price_1M80UtKvi2l7GmXJLHgxLmTh",
+            price: PRICE_ID,
             quantity: 1,
           },
         ],
