@@ -8,7 +8,10 @@ import { useQuestionStore } from "../store";
 import CheckoutForm from "../components/CheckoutForm";
 import Link from "next/link";
 
-const navigation = [{ name: "FAQ", href: "/faq" }];
+const navigation = [
+  { name: "FAQ", href: "/faq" },
+  { name: "Your Deck", href: "/deck" },
+];
 
 const Pattern = () => {
   return (
@@ -102,7 +105,7 @@ const Pattern2 = () => {
   );
 };
 
-const CardCounter = () => {
+export const CardCounter = () => {
   const { questions } = useQuestionStore((state) => state);
   return (
     <div className="">
@@ -122,8 +125,8 @@ export const Header = () => {
           <div className="flex flex-1 items-center">
             <div className="flex w-full items-center justify-between md:w-auto">
               <Link href="/">
-                  <span className="sr-only">Lang Game</span>
-                  <LangameIcon />
+                <span className="sr-only">Lang Game</span>
+                <LangameIcon />
               </Link>
               <div className="-mr-2 flex items-center md:hidden">
                 <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -231,3 +234,4 @@ export default function Home() {
     </div>
   );
 }
+
