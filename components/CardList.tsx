@@ -9,16 +9,12 @@ import { SecondaryButton } from "./SecondaryButton";
 const CardList = () => {
   const { questions, addQuestion, removeQuestion, rotateQuestions } =
     useQuestionStore((state) => state);
-  const hasQuestions = questions.length > 0;
+  const hasQuestions = questions?.length > 0;
   console.log({ questions });
   const cards = questions;
-  const [currentIndex, setCurrentIndex] = useState(0);
-  useEffect(() => {
-    setCurrentIndex(questions.length - 1);
-  }, [questions]);
-  // todo: make this not a hack
   const [hack, setHack] = useState(0);
-  const activeIndex = cards.length - 1;
+  // todo: make this not a hack
+  const activeIndex = cards?.length - 1;
 
   const [history, setHistory] = useState<HistoryType[]>([]);
 
@@ -47,7 +43,7 @@ const CardList = () => {
   return (
     <div className="relative flex flex-col justify-center items-center w-full min-h-[500px] gradient">
       <AnimatePresence>
-        {cards.map((card: any, index: number) => (
+        {cards?.map((card: any, index: number) => (
           <Card
             key={card.name}
             active={index === activeIndex}
@@ -58,7 +54,7 @@ const CardList = () => {
           />
         ))}
       </AnimatePresence>
-      {cards.length === 0 ? (
+      {cards?.length === 0 ? (
         <AnimatePresence>
           <Card
             cardNumber={0}

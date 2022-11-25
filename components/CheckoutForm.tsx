@@ -1,27 +1,33 @@
 import React, { useState } from "react";
 
 import getStripe from "../utils/get-stripejs";
-import { fetchPostJSON } from "../utils/api-helpers";
-import * as config from "../config";
 import { SecondaryButton } from "./SecondaryButton";
-import StripeTestCards from "./StripeTestCards";
+import { CardType } from "../types";
+import axios from "axios";
+import { useQuestionStore } from "../store";
 
 const CheckoutForm = () => {
   const [loading, setLoading] = useState(false);
-  const [input, setInput] = useState({
-    customDonation: Math.round(config.MAX_AMOUNT / config.AMOUNT_STEP),
-  });
+  const questions: any = useQuestionStore((state) => state.questions);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Create a Checkout Session.
-    const response = await fetchPostJSON("/api/checkout_sessions", {
-      amount: input.customDonation,
+
+    // transform cards into a format that can be sent to the server
+    // https://stripe.com/docs/api/metadata
+    // You can specify up to 50 keys, with key names up to 40 characters long and values up to 500 characters long.
+    const formattedQuestions = questions.reduce(
+      (a: any, v: any) => ({ ...a, [v.id]: v.name }),
+      {}
+    );
+
+    const response = await axios.post("/api/checkout_sessions", {
+      questions: formattedQuestions,
     });
 
-    if (response.statusCode === 500) {
-      console.error(response.message);
+    if (response.status === 500) {
+      console.error(response.statusText);
       return;
     }
 
@@ -31,7 +37,7 @@ const CheckoutForm = () => {
       // Make the id field from the Checkout Session creation API response
       // available to this file, so you can provide it as parameter here
       // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-      sessionId: response.id,
+      sessionId: response.data.id,
     });
     // If `redirectToCheckout` fails due to a browser or network
     // error, display the localized error message to your customer
@@ -47,7 +53,7 @@ const CheckoutForm = () => {
         type="submit"
         disabled={loading}
       >
-        Pre-order Now
+        💵 Pre-order Now
       </SecondaryButton>
     </form>
   );

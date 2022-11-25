@@ -14,8 +14,15 @@ export default async function handler(
     try {
       // Create Checkout Sessions from body params.
       const params: Stripe.Checkout.SessionCreateParams = {
-        mode: "setup",
-        metadata: { 0: "test", 1: "test2" },
+        mode: "payment",
+        metadata: req.body.questions,
+        line_items: [
+          {
+            // test -> price_1M80UtKvi2l7GmXJLHgxLmTh
+            price: "price_1M80UtKvi2l7GmXJLHgxLmTh",
+            quantity: 1,
+          },
+        ],
         customer_email: req.body.email,
         payment_method_types: ["card"],
         success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
