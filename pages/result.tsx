@@ -114,8 +114,8 @@ const OrderConfirmation = ({ data }: any) => {
                 <dd className="mt-2 text-gray-700">
                   <address className="not-italic">
                     <span className="block">{data.shipping_details.name}</span>
-                    <span className="block">{data.shipping_details.line1}</span>
-                    <span className="block">{data.shipping_details.line2}</span>
+                    <span className="block">{data.shipping_details.address.line1}</span>
+                    <span className="block">{data.shipping_details.address.line2}</span>
                     <span className="block">{`${data.shipping_details.address.city}, ${data.shipping_details.address.postal_code}`}</span>
                     <span className="block">
                       {data.shipping_details.address.state}
