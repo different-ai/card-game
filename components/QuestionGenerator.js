@@ -11,7 +11,7 @@ const topics = [
   "Deep Talk, Education",
   "Self exploration, Relationship",
   "Entrepreuneurship, Science",
-  "Startup"
+  "Startup",
 ];
 
 export const QuestionGenerator = ({ children }) => {

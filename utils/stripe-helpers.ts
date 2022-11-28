@@ -1,3 +1,4 @@
+// unused
 export function formatAmountForDisplay(
   amount: number,
   currency: string

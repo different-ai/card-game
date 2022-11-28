@@ -1,4 +1,4 @@
-import { Header } from ".";
+import { Header } from "../components/Header";
 
 const faqs = [
   {

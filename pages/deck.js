@@ -1,14 +1,9 @@
-import { Fragment } from "react";
-import { Popover, Transition } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { LangameIcon } from "../components/LangameIcon";
 import { QuestionGenerator } from "../components/QuestionGenerator";
 import CardList from "../components/CardList";
-import { useQuestionStore } from "../store";
 import CheckoutForm from "../components/CheckoutForm";
-import Link from "next/link";
-import { Header, Pattern2 } from ".";
 import { CardCounter } from "../components/CardCounter";
+import { Pattern2 } from "../components/Pattern2";
+import { Header } from "../components/Header";
 
 export default function Home() {
   return (

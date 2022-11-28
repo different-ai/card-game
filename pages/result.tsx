@@ -1,8 +1,6 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 
-import { fetchGetJSON } from "../utils/api-helpers";
-import useSWR from "swr";
 import { useEffect, useState } from "react";
 import axios from "axios";
 

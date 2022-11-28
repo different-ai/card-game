@@ -1,13 +1,12 @@
+import { MAX_QUESTIONS, MIN_QUESTIONS } from "../config";
 import { useQuestionStore } from "../store";
-import { minimumQuestions } from "../pages/index";
 
 
 export const CardCounter = () => {
   const { questions } = useQuestionStore((state) => state);
-  const maximumQuestions = 150;
 
-  const hasEnough = questions.length >= minimumQuestions;
-  const hasTooMany = questions.length > maximumQuestions;
+  const hasEnough = questions.length >= MIN_QUESTIONS;
+  const hasTooMany = questions.length > MAX_QUESTIONS;
   return (
     <div>
       <div className="">
@@ -15,11 +14,11 @@ export const CardCounter = () => {
         <span>{` ${questions.length} `}</span>cards in your deck!
       </div>
       {!hasEnough && (
-        <span className="text-2xl ">{`Only ${minimumQuestions - questions.length} cards missing to order!`}</span>
+        <span className="text-2xl ">{`Only ${MIN_QUESTIONS - questions.length} cards missing to order!`}</span>
       )}
       {hasTooMany && (
         <span className="text-2xl ">{`Remove ${Math.abs(
-          maximumQuestions - questions.length
+          MAX_QUESTIONS - questions.length
         )} cards to order!`}</span>
       )}
     </div>

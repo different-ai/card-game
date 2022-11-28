@@ -4,13 +4,13 @@ import getStripe from "../utils/get-stripejs";
 import { SecondaryButton } from "./SecondaryButton";
 import axios from "axios";
 import { useQuestionStore } from "../store";
-import { maximumQuestions, minimumQuestions } from "../pages";
+import { MAX_QUESTIONS, MIN_QUESTIONS } from "../config";
 
 const CheckoutForm = () => {
   const [loading, setLoading] = useState(false);
   const questions: any = useQuestionStore((state) => state.questions);
-  const hasEnoughQuestions = questions?.length > minimumQuestions;
-  const hasTooManyQuestions = questions?.length > maximumQuestions;
+  const hasEnoughQuestions = questions?.length > MIN_QUESTIONS;
+  const hasTooManyQuestions = questions?.length > MAX_QUESTIONS;
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
