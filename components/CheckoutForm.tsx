@@ -4,12 +4,13 @@ import getStripe from "../utils/get-stripejs";
 import { SecondaryButton } from "./SecondaryButton";
 import axios from "axios";
 import { useQuestionStore } from "../store";
+import { maximumQuestions, minimumQuestions } from "../pages";
 
 const CheckoutForm = () => {
   const [loading, setLoading] = useState(false);
   const questions: any = useQuestionStore((state) => state.questions);
-  const hasEnoughQuestions = questions?.length > 20;
-  const hasTooManyQuestions = questions?.length > 50;
+  const hasEnoughQuestions = questions?.length > minimumQuestions;
+  const hasTooManyQuestions = questions?.length > maximumQuestions;
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -52,7 +53,7 @@ const CheckoutForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <SecondaryButton
-        className="checkout-style-background "
+        className="checkout-style-background disabled:bg-gray-100 disabled:text-gray-300 cursor-pointer disabled:cursor-not-allowed"
         type="submit"
         disabled={isDisabled}
       >
@@ -60,7 +61,7 @@ const CheckoutForm = () => {
           !hasTooManyQuestions &&
           !loading &&
           `Pre-order now for $25 🔥`}
-        {!hasEnoughQuestions && "Add more questions and pre-order the deck 😍"}
+        {!hasEnoughQuestions && "Pre-order now for $25 🔥"}
         {hasTooManyQuestions && "Too many questions"}
         {loading && "Redirecting you to checkout"}
       </SecondaryButton>
