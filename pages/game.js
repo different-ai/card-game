@@ -108,7 +108,7 @@ useEffect(() => {
               </div>
               <PrimaryButton className="my-2" onClick={() => joinRoom()}>Join room</PrimaryButton>
               <Input
-              className="min-h-[4rem] max-w-[20rem] mb-2"
+              className="min-h-[4rem] max-w-[20rem] mb-2 items-center"
               type="text" 
               pattern="\d*" 
               maxlength="8"
