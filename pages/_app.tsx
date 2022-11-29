@@ -12,7 +12,6 @@ export default function App({ Component, pageProps }: AppProps) {
       if (process.env.NODE_ENV === "development") posthog.opt_out_capturing();
     },
   });
-  console.log("yo");
 
   return <Component {...pageProps} />;
 }
