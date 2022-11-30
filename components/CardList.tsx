@@ -64,6 +64,7 @@ const CardList = () => {
             card={{
               id: "0",
               name: "Your questions will appear here",
+              categories: []
             }}
             removeCard={() => null}
           />
