@@ -41,7 +41,7 @@ const CardList = () => {
       const { data, error: addUserError } = await supabase
       .from('lines')
       .insert([
-        {user_id, question: oldCard.name, categories: oldCard.categories, rating}
+        {user_id, question: oldCard.name, categories: oldCard.categories, rating, id: oldCard.id}
       ])
       if(addUserError) {
         console.log("ERROR WHEN RATING CARD", addUserError.message)
@@ -61,9 +61,9 @@ const CardList = () => {
       const { error: deleteError } = await supabase
       .from('lines')
       .delete()
-      .eq('question',newCard.name)
+      .eq('id',newCard.id)
       if(deleteError) {
-        console.log("ERROR WHEN RATING CARD", deleteError.message)
+        console.log("ERROR WHEN DELETING CARD", deleteError.message)
       }
       addQuestion(newCard);
     }
