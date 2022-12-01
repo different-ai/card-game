@@ -5,7 +5,7 @@ import Card from "./Card";
 import { useQuestionStore } from "../store";
 import RotateIcon from "./RotateIcon";
 import { SecondaryButton } from "./SecondaryButton";
-
+import { supabase } from "../lib/supabase";
 const CardList = () => {
   const { questions, addQuestion, removeQuestion, rotateQuestions } =
     useQuestionStore((state) => state);
@@ -18,17 +18,38 @@ const CardList = () => {
 
   const [history, setHistory] = useState<HistoryType[]>([]);
 
-  const removeCard = (oldCard: CardType, swipe: SwipeType) => {
+  const removeCard = async (oldCard: CardType, swipe: SwipeType) => {
+    const user_id = localStorage.getItem("user")
+    let rating;
     if (swipe === "like") {
       rotateQuestions();
       setHack((prev) => prev + 1);
-      return;
+      rating = 1;
     }
-    setHistory((current) => [...current, { ...oldCard, swipe }]);
-    removeQuestion(oldCard.id);
+    else if (swipe === 'superlike') {
+      rating = 2;
+      setHistory((current) => [...current, { ...oldCard, swipe }]);
+      removeQuestion(oldCard.id);
+    }
+    else {
+      rating = 0;
+      setHistory((current) => [...current, { ...oldCard, swipe }]);
+      removeQuestion(oldCard.id);
+    }
+    // Makes sure review isnt done on default
+    if(oldCard.name !== "Your questions will appear here") {
+      const { data, error: addUserError } = await supabase
+      .from('lines')
+      .insert([
+        {user_id, question: oldCard.name, categories: oldCard.categories, rating}
+      ])
+      if(addUserError) {
+        console.log("ERROR WHEN RATING CARD", addUserError.message)
+      }
+    }
   };
 
-  const undoSwipe = () => {
+  const undoSwipe = async () => {
     const newCard = history.pop();
     if (newCard) {
       const { swipe } = newCard;
@@ -37,6 +58,13 @@ const CardList = () => {
           return card.id !== newCard.id;
         })
       );
+      const { error: deleteError } = await supabase
+      .from('lines')
+      .delete()
+      .eq('question',newCard.name)
+      if(deleteError) {
+        console.log("ERROR WHEN RATING CARD", deleteError.message)
+      }
       addQuestion(newCard);
     }
   };
