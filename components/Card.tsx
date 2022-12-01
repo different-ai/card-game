@@ -40,6 +40,7 @@ const Card: React.FC<CardProps> = ({
   };
 
   const onDragEnd = async (_e: any, info: PanInfo) => {
+    const user_id = localStorage.getItem("user")
     let rating;
     if (info.offset.y < -100) {
       setLeaveY(-2000);
@@ -62,7 +63,7 @@ const Card: React.FC<CardProps> = ({
     const { data, error: addUserError } = await supabase
     .from('lines')
     .insert([
-      {question: card.name , categories: card.categories, rating}
+      {user_id, question: card.name, categories: card.categories, rating}
     ])
     if(addUserError) {
       console.log("ERROR WHEN RATING CARD", addUserError.message)
