@@ -42,6 +42,7 @@ export const QuestionGenerator = ({ children }) => {
         addQuestion({
           id: question.id,
           name: question.conversation_starter.en,
+          categories: topics
         });
       }, 500 * index);
     });

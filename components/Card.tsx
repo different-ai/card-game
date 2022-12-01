@@ -1,5 +1,6 @@
 import { PanInfo, motion } from "framer-motion";
 import { useState } from "react";
+import { supabase } from "../lib/supabase";
 import { CardProps } from "../types";
 import { LangameIcon } from "./LangameIcon";
 
@@ -38,21 +39,37 @@ const Card: React.FC<CardProps> = ({
     }
   };
 
-  const onDragEnd = (_e: any, info: PanInfo) => {
+  const onDragEnd = async (_e: any, info: PanInfo) => {
+    const user_id = localStorage.getItem("user")
+    let rating;
     if (info.offset.y < -100) {
       setLeaveY(-2000);
       removeCard(card, "superlike");
-      return;
+      rating = 2
     }
-    if (info.offset.x > 100) {
-      setLeaveX(1000);
-      removeCard(card, "like");
+    else {
+      if (info.offset.x > 100) {
+        setLeaveX(1000);
+        removeCard(card, "like");
+        rating = 1
+      }
+      if (info.offset.x < -100) {
+        setLeaveX(-1000);
+        removeCard(card, "nope");
+        rating = 0
+      }
     }
-    if (info.offset.x < -100) {
-      setLeaveX(-1000);
-      removeCard(card, "nope");
+    if(card.name !== "Your questions will appear here") {
+    const { data, error: addUserError } = await supabase
+    .from('lines')
+    .insert([
+      {user_id, question: card.name, categories: card.categories, rating}
+    ])
+    if(addUserError) {
+      console.log("ERROR WHEN RATING CARD", addUserError.message)
     }
-  };
+  }
+  }
   const classNames = `absolute h-[430px] w-[300px] bg-white shadow-xl rounded-2xl flex flex-col cursor-grab border-4 border-indigo-600 p-4 ${className}`;
   return (
     <>
